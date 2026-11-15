@@ -1,0 +1,32 @@
+
+# VOICE DETECTION MODULE
+
+import speech_recognition as sr
+
+st.header("🎤 Voice Detection")
+
+recognizer = sr.Recognizer()
+
+audio_data = st.audio_input("Record Your Voice")
+
+if audio_data is not None:
+    try:
+        with sr.AudioFile(audio_data) as source:
+            audio = recognizer.record(source)
+
+        result = recognizer.recognize_google(
+            audio,
+            language="en-IN"
+        )
+
+        st.success("Voice Detected Successfully!")
+        st.write("Recognized Text:", result)
+
+    except sr.UnknownValueError:
+        st.warning("Voice not understood. Try again.")
+
+    except sr.RequestError:
+        st.error("Speech service unavailable. Check internet.")
+
+    except Exception as e:
+        st.error(f"Error: {e}")
